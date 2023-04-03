@@ -52,10 +52,29 @@ console.log(heading);
 
 
 //React Components
-const headingComponent = ()  => {
+const HeadingComponent = ()  => {
     return <h1>React Functional Component</h1>;
 }
 
+const greet = () => (
+    <h2>Welcome</h2>
+);
+
+const MainHeading = (props) => (
+    <div id='container'>
+        {5 > 0 ? 'positive' : 'negative'}
+        {console.log('Hello console.log')}
+        {heading}
+        <HeadingComponent />
+        <h1>JSX in React</h1>
+        {greet()}
+        <br />
+        {props.children}
+    </div>
+)
+
+//React.Fragemnt
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(jsxHeading);
+root.render(<MainHeading>Children prop</MainHeading>);
 
