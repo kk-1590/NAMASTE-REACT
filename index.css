@@ -6,3 +6,44 @@
     color: blue;
     font-size:20px;
 }
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+}
+
+.logo{
+    width: 100px;
+}
+
+.nav-items > ul {
+    display:flex;
+}
+
+.nav-items > ul > li {
+    padding: 10px;
+    list-style-type: none;
+    margin: 10px;
+    font-size: 22px;
+}
+
+.res-card{
+    padding: 5px;
+    width: 200px;
+    height: 350px;
+    border: 1px solid black;
+}
+
+.res-card:hover{
+    cursor:pointer;
+
+}
+
+.search{
+    padding: 10px;
+}
+
+.res-logo {
+    width: 100%;
+}
