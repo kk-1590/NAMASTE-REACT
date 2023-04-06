@@ -1916,14 +1916,36 @@ const restaurantList = [
     },
   ];
 
-const RestaurantCard = ({resName, cuisine}) => {
+const RestaurantCard = (props) => {
+
+    const {resData} = props;
+
+    const {
+      cloudinaryImageId,
+      name,
+      cuisines,
+      area,
+      lastMileTravelString,
+      costForTwoString,
+    } = resData?.data;
+
     return (
         <div className='res-card' style={styleCard}>
-            <img className='res-logo' src={FoodLogo} />
-            <h3>{resName}</h3>
-            <h4>{cuisine}</h4>
-            <h4>4.4 Stars</h4>
-            <h4>38 minutes</h4>
+            <img 
+              className='res-logo' 
+              src= {
+                "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/" + 
+                cloudinaryImageId
+              }
+            />
+              
+            <h2>{name}</h2>
+            <h4>{cuisines.join(", ")}</h4>
+            <h4>{area}</h4>
+            <span>
+              <h4>{lastMileTravelString}</h4>
+              <h4>{costForTwoString}</h4>
+            </span>
         </div>
     )
 }
@@ -1933,8 +1955,9 @@ const Body = () => {
         <div className='body'>
             <div className='search'>Search</div>
             <div className='res-container'>
-                <RestaurantCard resName="Meghna Foods" cuisine='Biryani, North Indian, Asian' />
-                <RestaurantCard resName="KFC" cuisine='Burger, Fast Food' />
+                {restaurantList.map((restaurant) => {
+                  return <RestaurantCard resData={restaurant} />
+                })}           
             </div>
         </div>
     )

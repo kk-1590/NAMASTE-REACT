@@ -17,27 +17,37 @@
     width: 100px;
 }
 
+.nav-items {
+    padding: 0px 20px;
+}
+
 .nav-items > ul {
     display:flex;
+    font-size: 22px;
 }
 
 .nav-items > ul > li {
     padding: 10px;
     list-style-type: none;
     margin: 10px;
-    font-size: 22px;
 }
 
 .res-card{
+    margin:5px;
     padding: 5px;
     width: 200px;
-    height: 350px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 .res-card:hover{
     cursor:pointer;
+    border: 1px solid black;
+}
 
+.res-container {
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: center;
 }
 
 .search{
