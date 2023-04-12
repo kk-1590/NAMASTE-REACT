@@ -57,3 +57,15 @@
 .res-logo {
     width: 100%;
 }
+
+.filter-btn{
+    cursor: pointer;
+    margin: 10px;
+}
+
+.functions{
+    display:flex;
+    /* border:2px solid black; */
+    /* justify-content: center; */
+    align-items: center;
+}
