@@ -11,7 +11,11 @@ import Footer from './components/Footer'
 import {name , fun} from './utils/fakeData';
 import fakeData from './utils/fakeData';
 import * as obj from './utils/fakeData';
-
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import About from './components/About';
+import Error from './components/Error';
+import Contact from './components/Contact';
+import RestaurantMenu from './components/RestaurantMenu';
 
 const heading = React.createElement(
     'h1', 
@@ -84,7 +88,11 @@ const AppLayout = () => {
     return (
         <div className='app'>
             <Header />
-            <Body />
+            {/* <Body />
+            <About />
+            <Contact /> */}
+            {/**Outlet */}
+            <Outlet />
             <Footer />
             {/* {console.log(fakeData)} */}
             {/* {console.log(obj.default)} */}
@@ -92,9 +100,40 @@ const AppLayout = () => {
     )
 }
 
+//configuration for router
+const appRouter = createBrowserRouter([
+    {
+        path: '/',
+        element : <AppLayout />,
+        errorElement: <Error />,
+        children: [
+            {
+                path: '/',
+                element : <Body />
+            },
+            {
+                path: '/about',
+                element : <About />,
+            },
+            {
+                path: '/contact',
+                element : <Contact />,
+            },
+            {
+                path:'/restaurant/:resId',
+                element: <RestaurantMenu />
+            }
+        ]
+    },
+    // {
+    //     path: '/about',
+    //     element : <About />
+    // }
+])
+
 //React.Fragment
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(<MainHeading>Children prop</MainHeading>);
-root.render(<AppLayout />);
+root.render(<RouterProvider router={appRouter}/>);
 
