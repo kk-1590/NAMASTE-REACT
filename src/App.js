@@ -16,6 +16,7 @@ import About from './components/About';
 import Error from './components/Error';
 import Contact from './components/Contact';
 import RestaurantMenu from './components/RestaurantMenu';
+import Profile from './components/Profile';
 
 const heading = React.createElement(
     'h1', 
@@ -114,6 +115,10 @@ const appRouter = createBrowserRouter([
             {
                 path: '/about',
                 element : <About />,
+                children: [{
+                    path: 'profile',  //don't use / === parentPath/{path}
+                    element : <Profile />
+                }]
             },
             {
                 path: '/contact',

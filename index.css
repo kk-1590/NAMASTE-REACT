@@ -81,3 +81,10 @@
     background-color: lightgray;
     margin: 20px;
 }
+
+.menu{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    /* justify-content:center; */
+}
