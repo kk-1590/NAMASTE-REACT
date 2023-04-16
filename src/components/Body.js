@@ -3,6 +3,9 @@ import restaurantList from "../utils/mockData";
 import { useState, useEffect } from 'react';
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import { filterData } from "../utils/helper";
+import useOnline from "../utils/useOnline";
+
 
 const Body = () => {
     //Local state variable - super powerful variable
@@ -12,6 +15,7 @@ const Body = () => {
     const [listOfFilteredRestaurants, setListOfFilteredRestaurants] = useState([]);
 
     const [inputValue,setInputValue] = useState('');
+
 
     // console.log('render()');
 
@@ -32,6 +36,11 @@ const Body = () => {
         setListOfFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
     }
 
+    const offline = useOnline();
+    if(!offline) {
+        return <h1>Offline, please check your internet connection</h1>
+    }
+
     // console.log('render');
 
     //Conditional Rendering
@@ -46,9 +55,10 @@ const Body = () => {
 
     return allRestaurants?.length === 0 ? <Shimmer /> :  (
         <div className='body'>
-            <div className="functions">
+            <div className="flex">
                 <div className='filter'>
-                    <button className="filter-btn" onClick={
+                    <button className="p-2 m-2 bg-purple-700 rounded-lg" 
+                    onClick={
                         () => {
                             // const filteredList = listOfRestaurants.filter((res) => res.data.name === 'Pizza Pie');
                             const filteredList = allRestaurants.filter((res) => res.data.avgRating >= 4.2);
@@ -59,10 +69,11 @@ const Body = () => {
                         Top Rated Restaurants
                     </button>
                 </div>
-                <div className="search-container">
-                    <input type='text' placeholder='Search' value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
-                    <button className="search-btn" onClick={() => {
-                        const searchedRestaurants = allRestaurants.filter((res) => res.data.name.toLowerCase().includes(inputValue.toLowerCase()))
+                <div className="flex align-middle">
+                    <input className="focus:bg-green-400" type='text' placeholder='Search' value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
+                    <button className="search-btn" 
+                    onClick={() => {
+                        const searchedRestaurants = filterData(allRestaurants,inputValue);
                         setListOfFilteredRestaurants(searchedRestaurants);
                         setInputValue('');
                     }}>
@@ -70,7 +81,7 @@ const Body = () => {
                     </button>
                 </div>
             </div>
-            <div className='res-container'>
+            <div className='flex flex-wrap justify-center'>
                 {listOfFilteredRestaurants.map((restaurant) => {
                     return (
                     <Link to={"/restaurant/" + restaurant.data.id}>

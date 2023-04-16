@@ -12,17 +12,24 @@ import {name , fun} from './utils/fakeData';
 import fakeData from './utils/fakeData';
 import * as obj from './utils/fakeData';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-import About from './components/About';
+// import About from './components/About';
 import Error from './components/Error';
 import Contact from './components/Contact';
 import RestaurantMenu from './components/RestaurantMenu';
 import Profile from './components/Profile';
+import { lazy, Suspense } from 'react';
+import Shimmer from './components/Shimmer';
+// import Instamart from './components/Instamart';
 
 const heading = React.createElement(
     'h1', 
     {id: 'heading', xyz:'abc'} , 
     'Hello World'
     );
+
+    const Instamart = lazy(() => import("./components/Instamart"));
+
+    const About = lazy(() => import('./components/About'));
 
 console.log(heading); //object
 
@@ -114,7 +121,9 @@ const appRouter = createBrowserRouter([
             },
             {
                 path: '/about',
-                element : <About />,
+                element : <Suspense fallback={<h1>Loading</h1>}>
+                            <About />
+                        </Suspense>,
                 children: [{
                     path: 'profile',  //don't use / === parentPath/{path}
                     element : <Profile />
@@ -127,6 +136,12 @@ const appRouter = createBrowserRouter([
             {
                 path:'/restaurant/:resId',
                 element: <RestaurantMenu />
+            },
+            {
+                path: '/instamart',
+                element : <Suspense fallback={<Shimmer />}>
+                            <Instamart />
+                        </Suspense>
             }
         ]
     },
