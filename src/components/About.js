@@ -2,11 +2,13 @@ import React from "react";
 import ProfileClass from "./ProfileClass";
 import ProfileFunction from "./Profile";
 import { Outlet } from "react-router-dom";
+import UserContext from "../utils/UserContext";
 
 const About2 = () => {
   return (
     <div>
       <h1>About Us Page</h1>
+      
       <p> This is the Namaste React Live Course</p>
       <Outlet />
       <ProfileClass name="KK" />
@@ -24,9 +26,9 @@ class About extends React.Component {
     async componentDidMount() {
 
         //Place for API Calls
-        this.timer = setInterval(() => {
-            console.log('NaMASTE REACT APP');
-        },100);
+        // this.timer = setInterval(() => {
+        //     console.log('NaMASTE REACT APP');
+        // },100);
         console.log('Parent componentDidMount');
     }
 
@@ -47,9 +49,16 @@ class About extends React.Component {
     return (
       <div>
         <h1>About Us Page</h1>
+        <UserContext.Consumer>
+        {({ user }) => (
+          <h4 className="font-bold text-xl p-10">
+            {user.name} - {user.email}
+          </h4>
+        )}
+      </UserContext.Consumer>
         <p> This is the Namaste React Live Course</p>
         <Outlet />
-        <ProfileClass name="KK" />
+        {/* <ProfileClass name="KK" /> */}
         {/* <ProfileFunction name={"Kartik"} /> */}
       </div>
     );

@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import ResLogo from '../utils/img_5.png';
 import { Link } from 'react-router-dom';
 import useOnline from '../utils/useOnline';
 import Instamart from './Instamart';
+import UserContext from '../utils/UserContext';
+import { useSelector } from 'react-redux';
 
 const loggedInUser = () => {
     return true;
@@ -20,6 +22,10 @@ const Header = () => {
 
     // console.log('render');
 
+    const { user } = useContext(UserContext);
+
+    const cartItems = useSelector(store => store.cart.items);  //gives you access to the store
+
     return (
         <div className='flex justify-between bg-pink-50'>
             <a href='/'>
@@ -36,14 +42,18 @@ const Header = () => {
                     <Link to='/contact'>
                         <li className='px-2'>Contact Us</li>
                     </Link>
-                    <li className='px-2'>Cart</li>
+                    
                     <Link to='/instamart'>
                         <li className='px-2'>Instamart</li>
+                    </Link>
+                    <Link to='/cart'>
+                    <li className='px-2'>Cart - {cartItems.length} items</li>
                     </Link>
                 </ul>
             </div>
             {/* <h1>{isOnline ? 'Online' : 'Offline'}</h1> */}
-            {
+            <h1 className=' font-semibold m-6 '>{user.name}</h1>
+            {   
                 (!isLoggedIn ? 
                 <button onClick={() => setIsLoggedIn(true)}>Login</button> : 
                 <button onClick={() => setIsLoggedIn(false)}>Logout</button>

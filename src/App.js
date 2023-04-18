@@ -3,7 +3,7 @@
 //what is CDN
 //crossorigin attribute in script tag
 //React and ReactDOM
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import Header from './components/Header';
 import Body from './components/Body';
@@ -19,7 +19,11 @@ import RestaurantMenu from './components/RestaurantMenu';
 import Profile from './components/Profile';
 import { lazy, Suspense } from 'react';
 import Shimmer from './components/Shimmer';
+import UserContext from './utils/UserContext';
 // import Instamart from './components/Instamart';
+import store from './utils/store';
+import { Provider } from 'react-redux';
+import Cart from './components/Cart';
 
 const heading = React.createElement(
     'h1', 
@@ -27,9 +31,9 @@ const heading = React.createElement(
     'Hello World'
     );
 
-    const Instamart = lazy(() => import("./components/Instamart"));
+const Instamart = lazy(() => import("./components/Instamart"));
 
-    const About = lazy(() => import('./components/About'));
+const About = lazy(() => import('./components/About'));
 
 console.log(heading); //object
 
@@ -93,18 +97,30 @@ const MainHeading = (props) => (
 )
 
 const AppLayout = () => {
+
+    const [user,setUser] = useState({
+        name:'Akshay Saini',
+        email:'xyz@gmail.com',
+    });
+
     return (
-        <div className='app'>
-            <Header />
-            {/* <Body />
-            <About />
-            <Contact /> */}
-            {/**Outlet */}
-            <Outlet />
-            <Footer />
-            {/* {console.log(fakeData)} */}
-            {/* {console.log(obj.default)} */}
-        </div>
+        <Provider store={store}>
+            <UserContext.Provider value={{
+                user : user,
+                setUser: setUser,
+            }}>
+                <Header />
+                {/* <Body />
+                <About />
+                <Contact /> */}
+                {/**Outlet */}
+                {/* <About /> */}
+                <Outlet />
+                <Footer />
+                {/* {console.log(fakeData)} */}
+                {/* {console.log(obj.default)} */}
+            </UserContext.Provider>
+        </Provider>
     )
 }
 
@@ -142,6 +158,10 @@ const appRouter = createBrowserRouter([
                 element : <Suspense fallback={<Shimmer />}>
                             <Instamart />
                         </Suspense>
+            },
+            {
+                path:'/cart',
+                element:<Cart />
             }
         ]
     },

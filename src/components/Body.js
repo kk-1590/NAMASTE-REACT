@@ -5,6 +5,8 @@ import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import { filterData } from "../utils/helper";
 import useOnline from "../utils/useOnline";
+import UserContext from "../utils/UserContext";
+import { useContext } from "react";
 
 
 const Body = () => {
@@ -15,6 +17,8 @@ const Body = () => {
     const [listOfFilteredRestaurants, setListOfFilteredRestaurants] = useState([]);
 
     const [inputValue,setInputValue] = useState('');
+
+    const { user, setUser} = useContext(UserContext);
 
 
     // console.log('render()');
@@ -79,6 +83,12 @@ const Body = () => {
                     }}>
                         Search
                     </button>
+                    <input value={user.name} onChange={
+                        e => setUser({
+                            name: e.target.value,
+                            email: "xyz@gmail.com"
+                        })
+                    }/>
                 </div>
             </div>
             <div className='flex flex-wrap justify-center'>
