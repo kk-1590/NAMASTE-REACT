@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import {IMG_CDN_URL, swiggy_menu_api_URL} from '../utils/constants';
 import Shimmer from './Shimmer'
 import { addItem } from '../utils/cartSlice';
+import { clearCart } from '../utils/cartSlice';
 import { useDispatch } from 'react-redux';
 // import { useDispatch } from 'react-redux';
 
@@ -20,11 +21,16 @@ const RestaurantMenu = () => {
 
     // let arr = [];
 
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    // const handleAddItem = () => {
-    //     dispatch(addItem("Grapes"))
-    // };
+    const handleAddItem = () => {
+        dispatch(addItem("Grapes"))   //{payload: "Grapes"}
+        // dispatch(clearCart());
+    };
+
+    const addFoodItem = (item) => {
+        dispatch(addItem(item));
+    }
 
     useEffect(() => {
         getRestaurantInfo();
@@ -37,12 +43,11 @@ const RestaurantMenu = () => {
             "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=12.9805778&lng=77.6649801&restaurantId=" + resId + "&submitAction=ENTER"
         );
         const json = await data.json();
-        setRestaurant(json,() => {
-            arr = json.data.cards?.[3]?.groupedCard.cardGroupMap.REGULAR.cards[1].card.card.itemCards;
-        });
+        setRestaurant(json);
         console.log(json);
+        // console.log(json);
         // console.log(json.data.cards?.[3]?.groupedCard.cardGroupMap.REGULAR.cards[1].card.card.itemCards[1].card.info.name);
-        console.log(json.data.cards?.[3]?.groupedCard.cardGroupMap.REGULAR.cards[1].card.card.itemCards);
+        // console.log(json.data.cards?.[3]?.groupedCard.cardGroupMap.REGULAR.cards[1].card.card.itemCards);
         //  console.log(arr);
         // for(let i = 0; i < arr.length; i++){
         //     console.log(arr[i].card.info.name);
@@ -70,17 +75,8 @@ const RestaurantMenu = () => {
     //     dispatch(addItem("Grapes"));
     // }
 
-    // const addFoodItem = (item) => {
-    //     dispatch(addItem(item));
-    // }
-
-    
-
-
-
-
   return (!restaurant) ? <Shimmer /> : (
-    <div className='menu'>
+    <div className='p-2 m-5 flex'>
         <div className='m-5'>
             <h1>Restaurant id: {resId}</h1>
             <h2>{restaurant?.name}</h2>
@@ -90,11 +86,11 @@ const RestaurantMenu = () => {
             <h3>{restaurant?.data?.cards?.[0].card?.card?.info.city}</h3>
             <h3>{restaurant?.data?.cards?.[0].card?.card?.avgRating}</h3>
         </div>
-        {/* <div>
+        <div>
             <button className='p-2 m-5 bg-green-100' onClick={
                 () => handleAddItem()
             }>Add Item</button>
-        </div> */}
+        </div>
         {/* <div>
             {(restaurant.cards?.[2].groupedCard.cardGroupMap.REGULAR.cards[1].card.card.itemCards?.[1].card.info.name)}
             <br />
@@ -109,9 +105,13 @@ const RestaurantMenu = () => {
         </div> */}
         <div className='right'>
         {(!restaurant.data?.cards?.[3]) ? (restaurant.data?.cards?.[2]?.groupedCard.cardGroupMap.REGULAR.cards[1].card.card.itemCards.map((item) => {
-            return <li>{item.card.info.name}</li>
+            return <li>{item.card.info.name} - <button className='p-1 bg-green-200' onClick={
+                () => addFoodItem(item.card.info)
+            }>Add</button></li>
         })): (restaurant.data?.cards?.[3]?.groupedCard.cardGroupMap.REGULAR.cards[1].card.card.itemCards.map((item) => {
-            return <li>{item.card.info.name}</li>
+            return <li>{item.card.info.name} - <button className='p-1 bg-green-200' onClick={
+                ()  => addFoodItem(item.card.info)
+            }>Add</button></li>
         }))}
 
         {/* {

@@ -14,6 +14,7 @@ const RestaurantCard = (props) => {
       lastMileTravelString,
       costForTwoString,
     } = resData?.data;
+    
 
     const { user } = useContext(UserContext);
 

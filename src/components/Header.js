@@ -25,6 +25,7 @@ const Header = () => {
     const { user } = useContext(UserContext);
 
     const cartItems = useSelector(store => store.cart.items);  //gives you access to the store
+    console.log(cartItems);
 
     return (
         <div className='flex justify-between bg-pink-50'>
